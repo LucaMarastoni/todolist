@@ -22,7 +22,10 @@ public class TodoController {
 
     @GetMapping("/")
     public String listTodos(Model model) {
-        model.addAttribute("todos", service.findAll());
+        var todos = service.findAll();
+        model.addAttribute("todos", todos);
+        model.addAttribute("completedCount", service.countCompleted());
+        model.addAttribute("activeCount", service.countActive());
         if (!model.containsAttribute("todoForm")) {
             model.addAttribute("todoForm", new TodoForm());
         }
@@ -51,6 +54,12 @@ public class TodoController {
     @PostMapping("/todos/{id}/delete")
     public String deleteTodo(@PathVariable Long id) {
         service.delete(id);
+        return "redirect:/";
+    }
+
+    @PostMapping("/todos/clear-completed")
+    public String clearCompleted() {
+        service.clearCompleted();
         return "redirect:/";
     }
 }
