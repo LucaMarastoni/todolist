@@ -1,5 +1,7 @@
+com/example/todolist/web/LoginController.class
 com/example/todolist/todo/TodoForm.class
 com/example/todolist/todo/TodoController.class
+com/example/todolist/config/SecurityConfig.class
 com/example/todolist/todo/Todo.class
 com/example/todolist/todo/TodoService.class
 com/example/todolist/todo/TodoRepository.class
