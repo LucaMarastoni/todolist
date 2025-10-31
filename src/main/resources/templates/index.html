@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<main class="container">
+    <section class="panel">
+        <h1>La tua ToDo List</h1>
+        <form th:action="@{/todos}" method="post" th:object="${todoForm}">
+            <div class="field-group">
+                <label for="title">Nuova attività</label>
+                <input id="title" type="text" placeholder="Es. studiare Java" th:field="*{title}">
+                <p class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Errore</p>
+            </div>
+            <button type="submit">Aggiungi</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Attività</h2>
+        <div th:if="${#lists.isEmpty(todos)}" class="empty-state">
+            Nessuna attività ancora. Aggiungine una qui sopra!
+        </div>
+        <ul class="todo-list" th:if="${!#lists.isEmpty(todos)}">
+            <li th:each="todo : ${todos}" th:classappend="${todo.completed} ? 'completed'">
+                <div>
+                    <form th:action="@{'/todos/' + ${todo.id} + '/toggle'}" method="post">
+                        <button type="submit" class="toggle" th:text="${todo.completed} ? '✔' : '○'">○</button>
+                    </form>
+                    <span th:text="${todo.title}">Titolo</span>
+                </div>
+                <form th:action="@{'/todos/' + ${todo.id} + '/delete'}" method="post">
+                    <button type="submit" class="delete">✕</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>
